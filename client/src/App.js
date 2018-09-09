@@ -1,40 +1,51 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Fragment } from 'react';
+import { Route } from 'react-router-dom';
+import { SecureRoute, ImplicitCallback } from '@okta/okta-react';
+import {
+  CssBaseline,
+  withStyles,
+} from '@material-ui/core';
 
-class App extends Component {
-  state = {
-    response: ''
-  };
+import HomePage from './components/home/HomePage';
+import RegistrationForm from './components/auth/RegistrationForm';
+import config from './app.config';
+import LoginPage from './components/auth/LoginPage';
+import ProfilePage from './components/auth/ProfilePage';
+import AppHeader from './components/AppHeader';
+import Grid from '@material-ui/core/Grid';
 
-  componentDidMount() {
-    this.callApi()
-      .then(res => this.setState({ response: res.express }))
-      .catch(err => console.log(err));
-  }
+const styles = theme => ({
+  main: {
+    padding: 3 * theme.spacing.unit,
+    [theme.breakpoints.down('xs')]: {
+      padding: 2 * theme.spacing.unit,
+    },
+  },
+});
 
-  callApi = async () => {
-    const response = await fetch('/api/hello');
-    const body = await response.json();
+const App = ({ classes }) => (
+  <Fragment>
+    <AppHeader />
+    <main className={classes.main}>
+      <Route path="/" exact component={HomePage} />
+      <Grid
+        container
+        spacing={0}
+        direction="column"
+        alignItems="center"
+        justify="center"
+        style={{ minHeight: '15vh' }}
+      >
+        <Route
+          path="/login"
+          render={() => <LoginPage baseUrl={config.url} />}
+        />
+        <Route path="/implicit/callback" component={ImplicitCallback} />
+        <Route path="/register" component={RegistrationForm} />
+        <SecureRoute path="/profile" component={ProfilePage} />
+      </Grid>
+    </main>
+  </Fragment>
+);
 
-    if (response.status !== 200) throw Error(body.message);
-
-    return body;
-  };
-
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          {this.state.response}
-        </p>
-      </div>
-    );
-  }
-}
-
-export default App;
+export default withStyles(styles)(App);
