@@ -10,12 +10,12 @@ var usersRouter = require('./api/routes/users');
 var app = express();
 
 // view engine setup
-app.set('views', './api/views');
+app.set('views', 'api/views');
 app.set('view engine', 'jade');
 
 // Express only serves static assets in production
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('client/build'));
+  app.use(express.static('./client/build'));
 }
 
 app.use(logger('dev'));
