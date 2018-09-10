@@ -5,7 +5,6 @@ import { Security } from '@okta/okta-react';
 
 import config from './app.config';
 import App from './App';
-import registerServiceWorker from './registerServiceWorker';
 
 function onAuthRequired({ history }) {
   history.push('/login');
@@ -24,4 +23,3 @@ ReactDOM.render(
   </Router>,
   document.getElementById('root')
 );
-registerServiceWorker();
