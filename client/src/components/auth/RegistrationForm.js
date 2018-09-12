@@ -9,6 +9,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import purple from '@material-ui/core/colors/purple';
 import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 
 import config from '../../app.config';
 
@@ -66,13 +67,18 @@ const styles = theme => ({
     fontSize: 18,
   },
   button: {
-    margin: theme.spacing.unit,
+    marginTop: theme.spacing.unit * 3,
+    marginLeft: theme.spacing.unit,
+  },
+  buttons: {
+    display: 'flex',
+    justifyContent: 'flex-end',
   },
   input: {
     display: 'none',
   },
   alignCenter: {
-    textAlign: 'center',
+    justifyContent: 'right',
   }
 });
 
@@ -159,97 +165,103 @@ class RegistrationForm extends React.Component {
 
     return (
       <form onSubmit={this.handleSubmit}>
-        <FormControl fullWidth className={classes.margin}>
-          <InputLabel
-            FormLabelClasses={{
-              root: classes.cssLabel,
-              focused: classes.cssFocused,
-            }}
-            htmlFor="email"
-          >
-            Email
-          </InputLabel>
-          <Input
-            value={this.state.email}
-            onChange={this.handleEmailChange}
-            classes={{
-              underline: classes.cssUnderline,
-            }}
-            type="email"
-            id="email"
+        <Grid container spacing={24}>
+          <Grid item xs={12}>
+            <FormControl fullWidth>
+              <InputLabel
+                FormLabelClasses={{
+                  root: classes.cssLabel,
+                  focused: classes.cssFocused,
+                }}
+                htmlFor="email"
+              >
+                Email
+              </InputLabel>
+              <Input
+                value={this.state.email}
+                onChange={this.handleEmailChange}
+                classes={{
+                  underline: classes.cssUnderline,
+                }}
+                type="email"
+                id="email"
+              />
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <FormControl fullWidth>
+              <InputLabel
+                FormLabelClasses={{
+                  root: classes.cssLabel,
+                  focused: classes.cssFocused,
+                }}
+                htmlFor="firstName"
+              >
+                First Name
+              </InputLabel>
+              <Input
+                value={this.state.firstName}
+                onChange={this.handleFirstNameChange}
+                classes={{
+                  underline: classes.cssUnderline,
+                }}
+                type="text"
+                id="firstName"
+              />
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <FormControl fullWidth>
+              <InputLabel
+                FormLabelClasses={{
+                  root: classes.cssLabel,
+                  focused: classes.cssFocused,
+                }}
+                htmlFor="lastName"
+              >
+                Last Name
+              </InputLabel>
+              <Input
+                value={this.state.lastName}
+                onChange={this.handleLastNameChange}
+                classes={{
+                  underline: classes.cssUnderline,
+                }}
+                type="text"
+                id="lastName"
+              />
+            </FormControl>
+          </Grid>
+          <Grid item xs={12}>
+            <FormControl fullWidth>
+              <InputLabel
+                FormLabelClasses={{
+                  root: classes.cssLabel,
+                  focused: classes.cssFocused,
+                }}
+                htmlFor="password"
+              >
+                Password
+              </InputLabel>
+              <Input
+                value={this.state.password}
+                onChange={this.handlePasswordChange}
+                classes={{
+                  underline: classes.cssUnderline,
+                }}
+                type="password"
+                id="password"
+              />
+            </FormControl>
+          </Grid>
+        </Grid>
+        <div className={classes.buttons}>
+          <input
+            className={classes.input}
+            id="submit"
+            type="submit"
+            value="Register"
           />
-        </FormControl>
-        <div>
-          <FormControl className={classes.margin}>
-            <InputLabel
-              FormLabelClasses={{
-                root: classes.cssLabel,
-                focused: classes.cssFocused,
-              }}
-              htmlFor="firstName"
-            >
-              First Name
-            </InputLabel>
-            <Input
-              value={this.state.firstName}
-              onChange={this.handleFirstNameChange}
-              classes={{
-                underline: classes.cssUnderline,
-              }}
-              type="text"
-              id="firstName"
-            />
-          </FormControl>
-          <FormControl className={styles.margin}>
-            <InputLabel
-              FormLabelClasses={{
-                root: classes.cssLabel,
-                focused: classes.cssFocused,
-              }}
-              htmlFor="lastName"
-            >
-              Last Name
-            </InputLabel>
-            <Input
-              value={this.state.lastName}
-              onChange={this.handleLastNameChange}
-              classes={{
-                underline: classes.cssUnderline,
-              }}
-              type="text"
-              id="lastName"
-            />
-          </FormControl>
-        </div>
-        <div>
-          <FormControl fullWidth className={classes.margin}>
-            <InputLabel
-              FormLabelClasses={{
-                root: classes.cssLabel,
-                focused: classes.cssFocused,
-              }}
-              htmlFor="password"
-            >
-              Password
-            </InputLabel>
-            <Input
-              value={this.state.password}
-              onChange={this.handlePasswordChange}
-              classes={{
-                underline: classes.cssUnderline,
-              }}
-              type="password"
-              id="password"
-            />
-          </FormControl>
-        </div>
-        <input
-          className={classes.input}
-          id="submit"
-          type="submit"
-          value="Register"
-        />
-        <div className={classes.alignCenter}>
           <label htmlFor="submit">
             <Button component="span" className={classes.button}>
               Register

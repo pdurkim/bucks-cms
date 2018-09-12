@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Route } from 'react-router-dom';
 import { SecureRoute, ImplicitCallback } from '@okta/okta-react';
 import {
@@ -11,8 +11,7 @@ import RegistrationForm from './components/auth/RegistrationForm';
 import config from './app.config';
 import LoginPage from './components/auth/LoginPage';
 import ProfilePage from './components/auth/ProfilePage';
-import AppHeader from './components/AppHeader';
-import Grid from '@material-ui/core/Grid';
+import Layout from './components/shared/Layout';
 
 const styles = theme => ({
   main: {
@@ -24,28 +23,19 @@ const styles = theme => ({
 });
 
 const App = ({ classes }) => (
-  <Fragment>
-    <AppHeader />
+  <Layout>
+    <CssBaseline />
     <main className={classes.main}>
       <Route path="/" exact component={HomePage} />
-      <Grid
-        container
-        spacing={0}
-        direction="column"
-        alignItems="center"
-        justify="center"
-        style={{ minHeight: '15vh' }}
-      >
-        <Route
-          path="/login"
-          render={() => <LoginPage baseUrl={config.url} />}
-        />
-        <Route path="/implicit/callback" component={ImplicitCallback} />
-        <Route path="/register" component={RegistrationForm} />
-        <SecureRoute path="/profile" component={ProfilePage} />
-      </Grid>
+      <Route
+        path="/login"
+        render={() => <LoginPage baseUrl={config.url} />}
+      />
+      <Route path="/implicit/callback" component={ImplicitCallback} />
+      <Route path="/register" component={RegistrationForm} />
+      <SecureRoute path="/profile" component={ProfilePage} />
     </main>
-  </Fragment>
+  </Layout>
 );
 
 export default withStyles(styles)(App);
