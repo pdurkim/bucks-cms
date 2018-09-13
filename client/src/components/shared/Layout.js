@@ -16,7 +16,7 @@ import Button from '@material-ui/core/Button';
 import Badge from '@material-ui/core/Badge';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import { mainListItems, secondaryListItems } from './DrawerItems';
+import { mainListItems, LoggedInItems } from './DrawerItems';
 
 const drawerWidth = 240;
 
@@ -127,91 +127,59 @@ class Layout extends Component {
     const { classes, children } = this.props;
 
     if (this.state.authenticated === null) return null;
-    const drawer = this.state.authenticated ? (
-      <div>
-        <div className={classes.toolbar} />
-        <Divider />
-        <List>
-          <Button href="" color="inherit" onClick={() => this.props.auth.logout()} className={classes.button}>
-            Logout
-          </Button>
-        </List>
-        <Divider />
-        <List>
-          <Button component={Link} to="/profile" color="inherit" className={classes.button}>
-            Profile
-          </Button>
-        </List>
-      </div>
-    ) : (
-      <div>
-        <div className={classes.toolbar} />
-        <Divider />
-        <List>
-          <Button href="" color="inherit" onClick={() => this.props.auth.login()} className={classes.button}>
-            Login
-          </Button>
-        </List>
-        <Divider />
-        <List>
-          <Button component={Link} to="/register" color="inherit" className={classes.button}>
-            Register
-          </Button>
-        </List>
-      </div>
-    );
+    const drawer = this.state.authenticated ? <LoggedInItems auth={this.props.auth} /> : null
 
     return (
       <Fragment>
-      <div className={classes.root}>
-        <AppBar
-          position="absolute"
-          className={classNames(classes.appBar, this.state.open && classes.appBarShift)}
-        >
-          <Toolbar disableGutters={!this.state.open} className={classes.toolbar}>
-            <IconButton
-              color="inherit"
-              aria-label="Open drawer"
-              onClick={this.handleDrawerOpen}
-              className={classNames(
-                classes.menuButton,
-                this.state.open && classes.menuButtonHidden,
-              )}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="title" color="inherit" noWrap className={classes.title}>
-              Dashboard
-            </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-          </Toolbar>
-        </AppBar>
-        <Drawer
-          variant="permanent"
-          classes={{
-            paper: classNames(classes.drawerPaper, !this.state.open && classes.drawerPaperClose),
-          }}
-          open={this.state.open}
-        >
-          <div className={classes.toolbarIcon}>
-            <IconButton onClick={this.handleDrawerClose}>
-              <ChevronLeftIcon />
-            </IconButton>
-          </div>
-          <Divider />
-          <List>{mainListItems}</List>
-          <Divider />
-          <List>{secondaryListItems}</List>
-        </Drawer>
-        <main className={classes.content}>
-          <div className={classes.appBarSpacer} />
-          {children}
-        </main>
-      </div>
+        <div className={classes.root}>
+          <AppBar
+            position="absolute"
+            className={classNames(classes.appBar, this.state.open && classes.appBarShift)}
+          >
+            <Toolbar disableGutters={!this.state.open} className={classes.toolbar}>
+              <IconButton
+                color="inherit"
+                aria-label="Open drawer"
+                onClick={this.handleDrawerOpen}
+                className={classNames(
+                  classes.menuButton,
+                  this.state.open && classes.menuButtonHidden,
+                )}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography variant="title" color="inherit" noWrap className={classes.title}>
+                Dashboard
+              </Typography>
+              <IconButton color="inherit">
+                <Badge badgeContent={4} color="secondary">
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>
+            </Toolbar>
+          </AppBar>
+          <Drawer
+            variant="permanent"
+            classes={{
+              paper: classNames(classes.drawerPaper, !this.state.open && classes.drawerPaperClose),
+            }}
+            open={this.state.open}
+          >
+            <div className={classes.toolbarIcon}>
+              <IconButton onClick={this.handleDrawerClose}>
+                <ChevronLeftIcon />
+              </IconButton>
+            </div>
+            <Divider />
+            <List>{mainListItems}</List>
+            <Divider />
+            <List>{drawer}</List>
+          </Drawer>
+          <main className={classes.content}>
+            <div className={classes.appBarSpacer} />
+            {children}
+          </main>
+        </div>
       </Fragment>
     );
   }

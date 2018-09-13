@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Route } from 'react-router-dom';
 import { SecureRoute, ImplicitCallback } from '@okta/okta-react';
 import {
@@ -11,7 +11,6 @@ import RegistrationForm from './components/auth/RegistrationForm';
 import config from './app.config';
 import LoginPage from './components/auth/LoginPage';
 import ProfilePage from './components/auth/ProfilePage';
-import Layout from './components/shared/Layout';
 
 const styles = theme => ({
   main: {
@@ -23,19 +22,17 @@ const styles = theme => ({
 });
 
 const App = ({ classes }) => (
-  <Layout>
+  <Fragment>
     <CssBaseline />
-    <main className={classes.main}>
-      <Route path="/" exact component={HomePage} />
-      <Route
-        path="/login"
-        render={() => <LoginPage baseUrl={config.url} />}
-      />
-      <Route path="/implicit/callback" component={ImplicitCallback} />
-      <Route path="/register" component={RegistrationForm} />
-      <SecureRoute path="/profile" component={ProfilePage} />
-    </main>
-  </Layout>
+    <Route path="/" exact component={HomePage} />
+    <SecureRoute path="/profile" component={ProfilePage} />
+    <Route
+      path="/login"
+      render={() => <LoginPage baseUrl={config.url} />}
+    />
+    <Route path="/implicit/callback" component={ImplicitCallback} />
+    <Route path="/register" component={RegistrationForm} />
+  </Fragment>
 );
 
 export default withStyles(styles)(App);

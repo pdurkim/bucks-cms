@@ -18,8 +18,7 @@ router.post('/', (req, res, next) => {
       }
     }
   };
-  oktaClient
-    .createUser(newUser)
+  oktaClient.createUser(newUser)
     .then(user => {
       res.status(201);
       res.send(user);
@@ -27,7 +26,7 @@ router.post('/', (req, res, next) => {
     .catch(err => {
       res.status(400);
       res.send(err);
-    });
+    })
 });
 
 module.exports = router;

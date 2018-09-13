@@ -1,5 +1,9 @@
 import React from 'react';
 import { withAuth } from '@okta/okta-react';
+import Layout from '../shared/Layout';
+import {
+  Typography,
+} from '@material-ui/core';
 
 export default withAuth(
   class ProfilePage extends React.Component {
@@ -24,13 +28,15 @@ export default withAuth(
     render() {
       if (!this.state.user) return null;
       return (
-        <section className="user-profile">
-          <h1>User Profile</h1>
-          <div>
-            <label>Name:</label>
-            <span>{this.state.user.name}</span>
-          </div>
-        </section>
+        <Layout>
+          <section className="user-profile">
+            <div>
+              <Typography variant="display1">
+                You're signed in as {this.state.user.name}
+              </Typography>
+            </div>
+          </section>
+        </Layout>
       );
     }
   }

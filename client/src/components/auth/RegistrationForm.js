@@ -1,85 +1,52 @@
 import React from 'react';
 import OktaAuth from '@okta/okta-auth-js';
 import { withAuth } from '@okta/okta-react';
+import { Link } from 'react-router-dom';
 
 // Material UI Components
-import { withStyles } from '@material-ui/core/styles';
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
-import purple from '@material-ui/core/colors/purple';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import withStyles from '@material-ui/core/styles/withStyles';
+import PersonAdd from '@material-ui/icons/PersonAdd';
 
 import config from '../../app.config';
 
 const styles = theme => ({
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
+  layout: {
+    width: 'auto',
+    display: 'block', // Fix IE11 issue.
+    marginLeft: theme.spacing.unit * 3,
+    marginRight: theme.spacing.unit * 3,
+    [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+      width: 400,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
   },
-  margin: {
+  paper: {
+    marginTop: theme.spacing.unit * 8,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
+  },
+  avatar: {
     margin: theme.spacing.unit,
+    backgroundColor: theme.palette.secondary.main,
   },
-  cssLabel: {
-    '&$cssFocused': {
-      color: purple[500],
-    },
+  form: {
+    width: '100%', // Fix IE11 issue.
+    marginTop: theme.spacing.unit,
   },
-  cssFocused: {},
-  cssUnderline: {
-    '&:after': {
-      borderBottomColor: purple[500],
-    },
-  },
-  bootstrapRoot: {
-    padding: 0,
-    'label + &': {
-      marginTop: theme.spacing.unit * 3,
-    },
-  },
-  bootstrapInput: {
-    borderRadius: 4,
-    backgroundColor: theme.palette.common.white,
-    border: '1px solid #ced4da',
-    fontSize: 16,
-    padding: '10px 12px',
-    width: 'calc(100% - 24px)',
-    transition: theme.transitions.create(['border-color', 'box-shadow']),
-    fontFamily: [
-      '-apple-system',
-      'BlinkMacSystemFont',
-      '"Segoe UI"',
-      'Roboto',
-      '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(','),
-    '&:focus': {
-      borderColor: '#80bdff',
-      boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
-    },
-  },
-  bootstrapFormLabel: {
-    fontSize: 18,
-  },
-  button: {
+  submit: {
     marginTop: theme.spacing.unit * 3,
-    marginLeft: theme.spacing.unit,
   },
-  buttons: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-  },
-  input: {
-    display: 'none',
-  },
-  alignCenter: {
-    justifyContent: 'right',
-  }
 });
 
 // This component looks a lot like the LoginForm component with the exception that it calls the Node API that will handle doing the registration.
@@ -134,6 +101,9 @@ class RegistrationForm extends React.Component {
     e.preventDefault();
     fetch('/api/users', {
       method: 'POST',
+      params: {
+        activate: true
+      },
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json'
@@ -164,111 +134,118 @@ class RegistrationForm extends React.Component {
     }
 
     return (
-      <form onSubmit={this.handleSubmit}>
-        <Grid container spacing={24}>
-          <Grid item xs={12}>
-            <FormControl fullWidth>
-              <InputLabel
-                FormLabelClasses={{
-                  root: classes.cssLabel,
-                  focused: classes.cssFocused,
-                }}
-                htmlFor="email"
+      <React.Fragment>
+        <CssBaseline />
+        <main className={classes.layout}>
+          <Paper className={classes.paper}>
+            <Avatar className={classes.avatar}>
+              <PersonAdd />
+            </Avatar>
+            <Typography variant="headline">Register</Typography>
+            <form onSubmit={this.handleSubmit}>
+              <FormControl margin="normal" required fullWidth>
+                <InputLabel
+                  FormLabelClasses={{
+                    root: classes.cssLabel,
+                    focused: classes.cssFocused,
+                  }}
+                  htmlFor="email"
+                >
+                  Email
+                </InputLabel>
+                <Input
+                  value={this.state.email}
+                  onChange={this.handleEmailChange}
+                  classes={{
+                    underline: classes.cssUnderline,
+                  }}
+                  type="email"
+                  id="email"
+                />
+              </FormControl>
+              <FormControl margin="normal" required fullWidth>
+                <InputLabel
+                  FormLabelClasses={{
+                    root: classes.cssLabel,
+                    focused: classes.cssFocused,
+                  }}
+                  htmlFor="firstName"
+                >
+                  First Name
+                </InputLabel>
+                <Input
+                  value={this.state.firstName}
+                  onChange={this.handleFirstNameChange}
+                  classes={{
+                    underline: classes.cssUnderline,
+                  }}
+                  type="text"
+                  id="firstName"
+                />
+              </FormControl>
+              <FormControl margin="normal" required fullWidth>
+                <InputLabel
+                  FormLabelClasses={{
+                    root: classes.cssLabel,
+                    focused: classes.cssFocused,
+                  }}
+                  htmlFor="lastName"
+                >
+                  Last Name
+                </InputLabel>
+                <Input
+                  value={this.state.lastName}
+                  onChange={this.handleLastNameChange}
+                  classes={{
+                    underline: classes.cssUnderline,
+                  }}
+                  type="text"
+                  id="lastName"
+                />
+              </FormControl>
+              <FormControl margin="normal" required fullWidth>
+                <InputLabel
+                  FormLabelClasses={{
+                    root: classes.cssLabel,
+                    focused: classes.cssFocused,
+                  }}
+                  htmlFor="password"
+                >
+                  Password
+                </InputLabel>
+                <Input
+                  value={this.state.password}
+                  onChange={this.handlePasswordChange}
+                  classes={{
+                    underline: classes.cssUnderline,
+                  }}
+                  type="password"
+                  id="password"
+                />
+              </FormControl>
+              <Button
+                type="submit"
+                fullWidth
+                variant="raised"
+                color="primary"
+                className={classes.submit}
               >
-                Email
-              </InputLabel>
-              <Input
-                value={this.state.email}
-                onChange={this.handleEmailChange}
-                classes={{
-                  underline: classes.cssUnderline,
-                }}
-                type="email"
-                id="email"
-              />
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
-              <InputLabel
-                FormLabelClasses={{
-                  root: classes.cssLabel,
-                  focused: classes.cssFocused,
-                }}
-                htmlFor="firstName"
+                Register
+              </Button>
+              <Button
+                component={Link}
+                to='/login'
+                fullWidth
+                variant="raised"
+                color="secondary"
+                className={classes.submit}
               >
-                First Name
-              </InputLabel>
-              <Input
-                value={this.state.firstName}
-                onChange={this.handleFirstNameChange}
-                classes={{
-                  underline: classes.cssUnderline,
-                }}
-                type="text"
-                id="firstName"
-              />
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
-              <InputLabel
-                FormLabelClasses={{
-                  root: classes.cssLabel,
-                  focused: classes.cssFocused,
-                }}
-                htmlFor="lastName"
-              >
-                Last Name
-              </InputLabel>
-              <Input
-                value={this.state.lastName}
-                onChange={this.handleLastNameChange}
-                classes={{
-                  underline: classes.cssUnderline,
-                }}
-                type="text"
-                id="lastName"
-              />
-            </FormControl>
-          </Grid>
-          <Grid item xs={12}>
-            <FormControl fullWidth>
-              <InputLabel
-                FormLabelClasses={{
-                  root: classes.cssLabel,
-                  focused: classes.cssFocused,
-                }}
-                htmlFor="password"
-              >
-                Password
-              </InputLabel>
-              <Input
-                value={this.state.password}
-                onChange={this.handlePasswordChange}
-                classes={{
-                  underline: classes.cssUnderline,
-                }}
-                type="password"
-                id="password"
-              />
-            </FormControl>
-          </Grid>
-        </Grid>
-        <div className={classes.buttons}>
-          <input
-            className={classes.input}
-            id="submit"
-            type="submit"
-            value="Register"
-          />
-          <label htmlFor="submit">
-            <Button component="span" className={classes.button}>
-              Register
-            </Button>
-          </label>
-        </div>
-      </form>
+                Login
+              </Button>
+            </form>
+          </Paper>
+        </main>
+      </React.Fragment>
     );
   }
 }
