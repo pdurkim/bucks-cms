@@ -24,14 +24,15 @@ const styles = theme => ({
 const App = ({ classes }) => (
   <Fragment>
     <CssBaseline />
-    <Route path="/" exact component={HomePage} />
-    <SecureRoute path="/profile" component={ProfilePage} />
     <Route
       path="/login"
       render={() => <LoginPage baseUrl={config.url} />}
     />
     <Route path="/implicit/callback" component={ImplicitCallback} />
     <Route path="/register" component={RegistrationForm} />
+    <SecureRoute path="/" exact component={HomePage} />
+    <SecureRoute path="/profile" component={ProfilePage} />
+
   </Fragment>
 );
 

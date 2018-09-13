@@ -101,9 +101,6 @@ class RegistrationForm extends React.Component {
     e.preventDefault();
     fetch('/api/users', {
       method: 'POST',
-      params: {
-        activate: true
-      },
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json'

@@ -1,22 +1,17 @@
 import React, { Component, Fragment } from 'react';
 import classNames from 'classnames';
-import { Link } from 'react-router-dom';
 import { withAuth } from '@okta/okta-react';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import Hidden from '@material-ui/core/Hidden';
-import Divider from '@material-ui/core/Divider';
 import MenuIcon from '@material-ui/icons/Menu';
-import Button from '@material-ui/core/Button';
 import Badge from '@material-ui/core/Badge';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import { mainListItems, LoggedInItems } from './DrawerItems';
+import DrawerControl from './DrawerControl';
 
 const drawerWidth = 240;
 
@@ -127,10 +122,9 @@ class Layout extends Component {
     const { classes, children } = this.props;
 
     if (this.state.authenticated === null) return null;
-    const drawer = this.state.authenticated ? <LoggedInItems auth={this.props.auth} /> : null
+    const drawer = this.state.authenticated ? <DrawerControl auth={this.props.auth} /> : null
 
     return (
-      <Fragment>
         <div className={classes.root}>
           <AppBar
             position="absolute"
@@ -170,17 +164,13 @@ class Layout extends Component {
                 <ChevronLeftIcon />
               </IconButton>
             </div>
-            <Divider />
-            <List>{mainListItems}</List>
-            <Divider />
-            <List>{drawer}</List>
+            {drawer}
           </Drawer>
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
             {children}
           </main>
         </div>
-      </Fragment>
     );
   }
 }

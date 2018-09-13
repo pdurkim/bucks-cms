@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 import LoginForm from './LoginForm';
 import { withAuth } from '@okta/okta-react'; // used to get isAuthenticated from Okta
 
-export default withAuth(class Login extends Component {
+class Login extends Component {
   constructor(props) {
     super(props);
     this.state = { authenticated: null };
@@ -30,10 +30,8 @@ export default withAuth(class Login extends Component {
   // or to redirect to the user’s profile page, a component you’ll create next.
   render() {
     if (this.state.authenticated === null) return null;
-    return this.state.authenticated ?
-
-      <Redirect to={{ pathname: '/profile' }} /> :
-      <LoginForm baseUrl={this.props.baseUrl} />;
-
+    return this.state.authenticated ? <Redirect to={{ pathname: '/profile' }} /> : <LoginForm baseUrl={this.props.baseUrl} />;
   }
-});
+};
+
+export default withAuth(Login);
